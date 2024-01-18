@@ -1,4 +1,5 @@
 use std::io::{Error, ErrorKind};
+use std::str::from_utf8;
 
 use byteorder::{BigEndian, ByteOrder, LittleEndian, WriteBytesExt};
 
@@ -58,6 +59,14 @@ impl Packet {
                 Ok(String::from_utf8(self.bytes[5..].to_vec()).expect("Invalid UTF-8"))
             }
             _ => Err(Error::new(ErrorKind::Other, "Packet is not a query")),
+        }
+    }
+
+    pub fn get_content(&self) -> String {
+        // translate bytes to string
+        match from_utf8(&self.bytes) {
+            Ok(v) => v.to_string(),
+            Err(_) => "{binary}".to_string(),
         }
     }
 

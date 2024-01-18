@@ -116,7 +116,7 @@ impl Server {
                     trace!("Server.run(): new incoming connection");
                     if let Some(conn) = some_conn {
                         match conn {
-                            Ok(mut client_socket) => {
+                            Ok(client_socket) => {
                                 trace!("Server.run(): got the client_socket");
                                 let (tx, rx) = oneshot::channel();
                                 self.kill_switches.push(tx);

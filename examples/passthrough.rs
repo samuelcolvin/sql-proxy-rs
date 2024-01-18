@@ -14,16 +14,18 @@ struct PassthroughHandler {}
 #[async_trait::async_trait]
 impl PacketHandler for PassthroughHandler {
     async fn handle_request(&mut self, p: &Packet) -> Packet {
-        debug!(
-            "c=>s: {:?} packet: {} bytes",
+        info!(
+            "c=>s: {:?} packet: {} bytes content={:?}",
             p.get_packet_type(),
-            p.get_size()
+            p.get_size(),
+            p.get_content()
         );
         p.clone()
     }
 
     async fn handle_response(&mut self, p: &Packet) -> Packet {
-        debug!(
+        // dont care about content of the response
+        info!(
             "c<=s: {:?} packet: {} bytes",
             p.get_packet_type(),
             p.get_size()
